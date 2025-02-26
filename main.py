@@ -22,11 +22,13 @@ DATABASE_HOST = os.getenv("DATABASE_HOST")
 DATABASE_PORT = os.getenv("DATABASE_PORT")
 DATABASE_NAME = os.getenv("DATABASE_NAME")
 
-DATABASE_URL = "mysql+pymysql://root:%s@localhost:3306/testdb"%quote_plus(DATABASE_PASS)
-print(DATABASE_URL)
+# DATABASE_URL = "mysql+pymysql://root:%s@localhost:3306/testdb"%quote_plus(DATABASE_PASS)
+# print(DATABASE_URL)
+
+POSTGRES_URL_NO_SSL="postgresql+psycopg2://neondb_owner:npg_1ScTUhrb7JLf@ep-floral-morning-a17m1dt2-pooler.ap-southeast-1.aws.neon.tech/neondb"
 
 # create engine
-engine = create_engine(DATABASE_URL)
+engine = create_engine(POSTGRES_URL_NO_SSL)
 
 # create metadata
 metadata = MetaData()
@@ -101,6 +103,9 @@ async def delete_todo_by_id(todo_id: int):
     session.commit()
     return {"message": "Todo deleted successfully"}
 
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app)
 
 # curl -X 'POST' \
 #   'http://localhost:8000/todos/3' \
